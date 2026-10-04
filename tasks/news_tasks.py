@@ -7,14 +7,7 @@ from tools.news_sources import NEWS_SOURCES, AI_CATEGORIES
 
 
 def create_scraping_task(agent: Agent) -> Task:
-    """Create the web scraping task.
-
-    Args:
-        agent: The scraper agent
-
-    Returns:
-        Configured scraping task
-    """
+    """Create the web scraping task."""
     sources_list = "\n".join([f"- {s['name']}: {s['url']}" for s in NEWS_SOURCES])
 
     return Task(
@@ -53,15 +46,7 @@ Total articles collected: [number]""",
 
 
 def create_summarization_task(agent: Agent, context: list) -> Task:
-    """Create the summarization task.
-
-    Args:
-        agent: The summarizer agent
-        context: Previous tasks for context
-
-    Returns:
-        Configured summarization task
-    """
+    """Create the summarization task."""
     return Task(
         description="""Review the collected news articles and create concise summaries.
 
@@ -98,15 +83,7 @@ Focus on:
 
 
 def create_categorization_task(agent: Agent, context: list) -> Task:
-    """Create the categorization task.
-
-    Args:
-        agent: The categorizer agent
-        context: Previous tasks for context
-
-    Returns:
-        Configured categorization task
-    """
+    """Create the categorization task."""
     categories_list = "\n".join([f"- {cat}" for cat in AI_CATEGORIES])
 
     return Task(
@@ -174,15 +151,7 @@ Consider:
 
 
 def create_analysis_task(agent: Agent, context: list) -> Task:
-    """Create the deep analysis task.
-
-    Args:
-        agent: The analyst agent
-        context: Previous tasks for context
-
-    Returns:
-        Configured analysis task
-    """
+    """Create the deep analysis task."""
     return Task(
         description="""对分类后的新闻进行深度分析。请从每个分类中挑选最重要的 2-3 条新闻，进行深入分析。
 
@@ -247,15 +216,7 @@ def create_analysis_task(agent: Agent, context: list) -> Task:
 
 
 def create_reporting_task(agent: Agent, context: list) -> Task:
-    """Create the reporting task.
-
-    Args:
-        agent: The reporter agent
-        context: Previous tasks for context
-
-    Returns:
-        Configured reporting task
-    """
+    """Create the reporting task."""
     current_date = datetime.now().strftime("%Y-%m-%d")
 
     return Task(
@@ -270,13 +231,27 @@ The report should include:
 4. 趋势观察 - 观察到的模式和主题
 5. 值得关注 - 提到的公司、人物、产品
 
+执行摘要要求（非常重要）：
+- 用一句话概括每条重要新闻，每条不超过 50 字
+- 列出 5-8 条最重要的新闻
+- 每条一行，用列表形式
+- 不要写成段落
+- 要让读者 5 秒内扫完
+
 报告要求：
 - 专业、结构清晰
 - 通俗易懂
-- 有可操作的信息
-- 格式规范，章节明确
 - 全部使用中文
-- 报告中不得出现韩文或英文原文，所有内容必须为中文
+- 报告中不得出现韩文或英文原文
+
+输出格式要求（非常重要）：
+- 必须输出完整的 HTML 代码，不要用 Markdown
+- 使用 <h1>、<h2>、<h3> 做标题
+- 使用 <ul>、<li> 做列表
+- 使用 <strong> 加粗重点内容
+- 使用 <span class="highlight"> 高亮关键信息
+- 使用 <div class="section"> 包裹每个章节
+- 在 HTML 开头包含完整的 <style> 样式
 
 请特别关注以下业务方向：
 - 宠物食品行业的国内零售、出口形势
@@ -285,77 +260,203 @@ The report should include:
 - 香港政策与贸易
 - AI与实体产业的结合
 - 中国政策变化""",
-        expected_output=f"""# 每日新闻简报
-日期: {current_date}
+        expected_output=f"""完整的 HTML 代码，格式如下：
 
-## 执行摘要
-[2-3段，概述当日最重要的新闻动态，重点关注宠物食品、韩国市场、全球医美、香港政策、AI与产业结合]
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    body {{
+        font-family: -apple-system, "Microsoft YaHei", sans-serif;
+        color: #333;
+        line-height: 1.8;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }}
+    h1 {{
+        color: #1a5490;
+        border-bottom: 3px solid #1a5490;
+        padding-bottom: 10px;
+    }}
+    h2 {{
+        color: #2e75b6;
+        border-left: 5px solid #2e75b6;
+        padding-left: 12px;
+        margin-top: 35px;
+    }}
+    h3 {{
+        color: #c55a11;
+        margin-top: 25px;
+    }}
+    .highlight {{
+        background-color: #fff3cd;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-weight: 600;
+        color: #856404;
+    }}
+    .section {{
+        margin-bottom: 30px;
+    }}
+    ul {{
+        padding-left: 25px;
+    }}
+    li {{
+        margin-bottom: 8px;
+    }}
+    .summary-list {{
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px 25px;
+        border-left: 4px solid #2e75b6;
+    }}
+    .summary-list li {{
+        font-size: 1.05em;
+        line-height: 1.9;
+        margin-bottom: 10px;
+    }}
+    .source {{
+        color: #888;
+        font-size: 0.9em;
+    }}
+    .date {{
+        color: #666;
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }}
+</style>
+</head>
+<body>
 
-## 今日头条
+<h1>每日新闻简报</h1>
+<div class="date">日期: {current_date}</div>
 
-### 1. [最重要的新闻标题]
-[详细摘要，包含背景和影响]
-来源: [来源名称] | 分类: [分类]
+<div class="section">
+<h2>执行摘要</h2>
+<ul class="summary-list">
+<li>[一句话新闻1，不超过50字]</li>
+<li>[一句话新闻2]</li>
+<li>[一句话新闻3]</li>
+<li>[一句话新闻4]</li>
+<li>[一句话新闻5]</li>
+<li>[一句话新闻6]</li>
+<li>[一句话新闻7]</li>
+<li>[一句话新闻8]</li>
+</ul>
+</div>
 
-### 2. [第二条重要新闻]
-...
+<div class="section">
+<h2>今日头条</h2>
+<h3>1. [新闻标题]</h3>
+<p>[详细摘要]</p>
+<p class="source">来源: [来源] | 分类: [分类]</p>
 
-### 3. [第三条重要新闻]
-...
+<h3>2. [新闻标题]</h3>
+<p>[详细摘要]</p>
+<p class="source">来源: [来源] | 分类: [分类]</p>
 
-## 分类新闻
+<h3>3. [新闻标题]</h3>
+<p>[详细摘要]</p>
+<p class="source">来源: [来源] | 分类: [分类]</p>
+</div>
 
-### 中国政策与宏观
-- [新闻1简要]
-- [新闻2简要]
+<div class="section">
+<h2>分类新闻</h2>
 
-### 宠物食品行业
-- [新闻1简要]
-- [新闻2简要]
+<h3>宠物食品行业</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### 零售与电商
-- [新闻1简要]
-- [新闻2简要]
+<h3>韩国经济与市场</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### 韩国经济与市场
-- [新闻1简要]
-- [新闻2简要]
+<h3>全球医美趋势</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### 全球医美趋势
-- [新闻1简要]
-- [新闻2简要]
+<h3>香港政策与贸易</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### AI与产业结合
-- [新闻1简要]
-- [新闻2简要]
+<h3>中国政策与宏观</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### 国际贸易与关税
-- [新闻1简要]
-- [新闻2简要]
+<h3>AI与产业结合</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-### 香港政策与贸易
-- [新闻1简要]
-- [新闻2简要]
+<h3>零售与电商</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-## 趋势观察
-1. [趋势1]: [简要说明]
-2. [趋势2]: [简要说明]
-...
+<h3>国际贸易与关税</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
 
-## 值得关注
-- **公司/机构**: [提到的公司列表]
-- **技术**: [讨论的关键技术]
-- **人物**: [提到的重要人物]
+<h3>其他值得关注</h3>
+<ul>
+<li>[新闻1]</li>
+<li>[新闻2]</li>
+</ul>
+</div>
 
-## 数据统计
-- 分析文章总数: [数量]
-- 覆盖来源数: [数量]
-- 覆盖类别数: [数量]
+<div class="section">
+<h2>趋势观察</h2>
+<ol>
+<li><strong>[趋势1]</strong>: [说明]</li>
+<li><strong>[趋势2]</strong>: [说明]</li>
+<li><strong>[趋势3]</strong>: [说明]</li>
+<li><strong>[趋势4]</strong>: [说明]</li>
+<li><strong>[趋势5]</strong>: [说明]</li>
+<li><strong>[趋势6]</strong>: [说明]</li>
+</ol>
+</div>
 
----
-本报告由 AI 新闻汇总系统生成
-Powered by CrewAI + DeepSeek""",
+<div class="section">
+<h2>值得关注</h2>
+<ul>
+<li><strong>公司/机构</strong>: [...]</li>
+<li><strong>技术</strong>: [...]</li>
+<li><strong>人物</strong>: [...]</li>
+<li><strong>关键议题</strong>: [...]</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>数据统计</h2>
+<ul>
+<li>分析文章总数: [数量]</li>
+<li>覆盖来源数: [数量]</li>
+<li>覆盖类别数: [数量]</li>
+</ul>
+</div>
+
+<hr>
+<p class="source">本报告由 AI 新闻汇总系统生成</p>
+
+</body>
+</html>""",
         agent=agent,
         context=context,
-        output_file="outputs/daily_report.md",
+        output_file="outputs/daily_report.html",
     )

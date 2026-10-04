@@ -13,8 +13,8 @@ def create_summarizer_agent(llm) -> Agent:
         Agent configured for summarization
     """
     return Agent(
-        role="AI News Summarizer",
-        goal="Create concise, informative summaries of AI news articles",
+        role="新闻摘要编辑",
+        goal="Create concise, informative summaries of news articles",
         backstory="""You are a skilled technical writer with deep expertise in
         artificial intelligence. You excel at distilling complex technical content
         into clear, accessible summaries. You understand the nuances of AI research,

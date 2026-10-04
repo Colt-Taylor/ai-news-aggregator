@@ -13,8 +13,8 @@ def create_categorizer_agent(llm) -> Agent:
         Agent configured for categorization
     """
     return Agent(
-        role="AI News Categorizer",
-        goal="Accurately categorize AI news articles into relevant topics",
+        role="新闻分类编辑",
+        goal="Accurately categorize news articles into relevant topics",
         backstory="""You are an AI taxonomy expert with comprehensive knowledge of
         the artificial intelligence field. You understand the distinctions between
         different AI subfields including Large Language Models (LLM), Computer Vision,

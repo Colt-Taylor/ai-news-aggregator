@@ -1,4 +1,4 @@
-"""Reporter Agent - Creates daily AI news reports."""
+"""Reporter Agent - Creates daily news reports."""
 
 from crewai import Agent
 
@@ -13,8 +13,8 @@ def create_reporter_agent(llm) -> Agent:
         Agent configured for report generation
     """
     return Agent(
-        role="AI News Reporter",
-        goal="Create comprehensive, well-structured daily AI news reports",
+        role="新闻汇总编辑",
+        goal="Create comprehensive, well-structured daily news reports",
         backstory="""You are a seasoned technology journalist specializing in
         artificial intelligence coverage. You have written for major tech publications
         and know how to craft engaging, informative reports that appeal to both

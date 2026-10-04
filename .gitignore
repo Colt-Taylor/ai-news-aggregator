@@ -1,7 +1,6 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
 .Python
 build/
@@ -26,23 +25,13 @@ env/
 ENV/
 .venv/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-outputs/*.md
-outputs/*.txt
-!outputs/.gitkeep
-
-# Environment
+# Secrets (重要：防止 API Key 泄露)
 .env
-.env.local
+
+# Outputs
+outputs/
 *.log
+
+# 临时脚本
+fix_*.py
+wire_analyst.py
